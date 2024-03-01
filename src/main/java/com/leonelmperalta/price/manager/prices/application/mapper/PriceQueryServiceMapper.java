@@ -1,8 +1,6 @@
 package com.leonelmperalta.price.manager.prices.application.mapper;
 
 import com.leonelmperalta.price.manager.prices.application.exception.InternalServerErrorException;
-import com.leonelmperalta.price.manager.prices.domain.model.PriceQuery;
-import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.PriceQueryResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
