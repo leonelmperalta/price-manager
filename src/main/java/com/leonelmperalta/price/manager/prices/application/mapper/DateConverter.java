@@ -4,6 +4,7 @@ import com.leonelmperalta.price.manager.prices.application.exception.InternalSer
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -19,4 +20,7 @@ public class DateConverter {
         }
     }
 
+    public String toISO8601String(LocalDateTime localDateTime) {
+        return localDateTime.atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
 }

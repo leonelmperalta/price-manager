@@ -1,6 +1,7 @@
 package com.leonelmperalta.price.manager.prices.util;
 
 import com.leonelmperalta.price.manager.prices.domain.model.PriceQuery;
+import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.PriceQueryResponseDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -77,5 +78,17 @@ public class TestUtils {
         priceQueries.add(priceFee2);
 
         return priceQueries;
+    }
+
+    public static PriceQueryResponseDTO getPriceQueryResponse() {
+        return PriceQueryResponseDTO.builder()
+                .applicationEndDate("2020-12-31T23:59:59Z")
+                .applicationStartDate("2020-6-15T16:00:00Z")
+                .brandId(1L)
+                .currency("EUR")
+                .feeId(4L)
+                .finalPrice(BigDecimal.valueOf(38.95))
+                .productId(35455L)
+                .build();
     }
 }

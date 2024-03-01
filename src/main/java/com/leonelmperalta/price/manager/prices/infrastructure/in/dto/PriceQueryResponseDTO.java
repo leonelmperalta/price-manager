@@ -8,12 +8,14 @@ import java.math.BigDecimal;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PriceQueryResponseDTO {
 
+    private PriceQueryResponseDTO() {}
+
     private String applicationEndDate;
     private String applicationStartDate;
     private Long brandId;
     private String currency;
     private Long feeId;
-    private BigDecimal finalAmount;
+    private BigDecimal finalPrice;
     private Long productId;
 
     public String getApplicationEndDate() {
@@ -56,12 +58,12 @@ public class PriceQueryResponseDTO {
         this.feeId = feeId;
     }
 
-    public BigDecimal getFinalAmount() {
-        return finalAmount;
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
     }
 
-    public void setFinalAmount(BigDecimal finalAmount) {
-        this.finalAmount = finalAmount;
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
     }
 
     public Long getProductId() {
@@ -70,5 +72,54 @@ public class PriceQueryResponseDTO {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private final PriceQueryResponseDTO instance = new PriceQueryResponseDTO();
+
+        private Builder() {}
+
+        public Builder applicationEndDate(String applicationEndDate) {
+            instance.applicationEndDate = applicationEndDate;
+            return this;
+        }
+
+        public Builder applicationStartDate(String applicationStartDate) {
+            instance.applicationStartDate = applicationStartDate;
+            return this;
+        }
+
+        public Builder brandId(Long brandId) {
+            instance.brandId = brandId;
+            return this;
+        }
+
+        public Builder currency(String currency) {
+            instance.currency = currency;
+            return this;
+        }
+
+        public Builder feeId(Long feeId) {
+            instance.feeId = feeId;
+            return this;
+        }
+
+        public Builder finalPrice(BigDecimal finalPrice) {
+            instance.finalPrice = finalPrice;
+            return this;
+        }
+
+        public Builder productId(Long productId) {
+            instance.productId = productId;
+            return this;
+        }
+
+        public PriceQueryResponseDTO build() {
+            return instance;
+        }
     }
 }
