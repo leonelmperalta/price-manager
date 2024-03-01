@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 public class PriceQuery {
 
+    private PriceQuery() {}
+
     private LocalDateTime applicationEndDate;
     private LocalDateTime applicationStartDate;
     private Long brandId;
@@ -16,5 +18,59 @@ public class PriceQuery {
 
     public Integer getPriority() {
         return priority;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private final PriceQuery instance = new PriceQuery();
+
+        private Builder() {}
+
+        public Builder applicationEndDate(LocalDateTime applicationEndDate) {
+            instance.applicationEndDate = applicationEndDate;
+            return this;
+        }
+
+        public Builder applicationStartDate(LocalDateTime applicationStartDate) {
+            instance.applicationStartDate = applicationStartDate;
+            return this;
+        }
+
+        public Builder brandId(Long brandId) {
+            instance.brandId = brandId;
+            return this;
+        }
+
+        public Builder currency(String currency) {
+            instance.currency = currency;
+            return this;
+        }
+
+        public Builder feeId(Long feeId) {
+            instance.feeId = feeId;
+            return this;
+        }
+
+        public Builder finalPrice(BigDecimal finalPrice) {
+            instance.finalPrice = finalPrice;
+            return this;
+        }
+
+        public Builder priority(Integer priority) {
+            instance.priority = priority;
+            return this;
+        }
+
+        public Builder productId(Long productId) {
+            instance.productId = productId;
+            return this;
+        }
+
+        public PriceQuery build() {
+            return instance;
+        }
     }
 }
