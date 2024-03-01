@@ -3,7 +3,7 @@ info:
   title: price-manager
   version: 1.0.0
 paths:
-  /price-manager/v1/query:
+  /price-manager/v1/price:
     get:
       summary: Get Price and Fee Information
       description: |
@@ -37,7 +37,7 @@ paths:
               example:
                 meta_data:
                   method: "GET"
-                  operation: "/price-manager/query"
+                  operation: "/price-manager/v1/price"
                 data:
                   - product_id: "35455"
                     brand_id: "1"
@@ -67,7 +67,7 @@ paths:
               example:
                 meta_data:
                   method: "GET"
-                  operation: "/price-manager/query"
+                  operation: "/price-manager/v1/price"
                 data: []
                 errors:
                   - code: "400_ERROR"
@@ -91,7 +91,7 @@ paths:
               example:
                 meta_data:
                   method: "GET"
-                  operation: "/price-manager/query"
+                  operation: "/price-manager/v1/price"
                 data: []
                 errors:
                   - code: "404_ERROR"
@@ -115,7 +115,7 @@ paths:
               example:
                 meta_data:
                   method: "GET"
-                  operation: "/price-manager/query"
+                  operation: "/price-manager/v1/price"
                 data: []
                 errors:
                   - code: "500_ERROR"
