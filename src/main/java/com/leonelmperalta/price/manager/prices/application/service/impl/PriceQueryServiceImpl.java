@@ -29,7 +29,7 @@ public class PriceQueryServiceImpl implements PriceQueryService {
     @Override
     public PriceQuery priceQuery(Long brandId, Long productId, String applicationDate)
             throws InternalServerErrorException, NotDataFoundException {
-        List<PriceQuery> prices = priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
+        List<PriceQuery> prices = this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
                 brandId, productId, this.priceQueryServiceMapper.toLocalDateTime(applicationDate)
         );
         if (prices.isEmpty()) throw new NotDataFoundException();
