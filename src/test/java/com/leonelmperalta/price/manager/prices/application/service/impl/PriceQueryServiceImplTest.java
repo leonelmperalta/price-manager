@@ -39,7 +39,7 @@ class PriceQueryServiceImplTest {
             throws InternalServerErrorException, NotDataFoundException {
         Long brandId = 1L;
         Long productId = 35455L;
-        String applicationDate = "2020-06-15T18:00:00Z";
+        String applicationDate = "2020-06-15T18:00:00";
         LocalDateTime applicationDateAsDate = LocalDateTime.of(
                 2020, 6, 15, 18, 0, 0
         );
@@ -62,7 +62,7 @@ class PriceQueryServiceImplTest {
             throws InternalServerErrorException, NotDataFoundException {
         Long brandId = 1L;
         Long productId = 35455L;
-        String applicationDate = "2020-06-14T16:00:00Z";
+        String applicationDate = "2020-06-14T16:00:00";
         LocalDateTime applicationDateAsDate = LocalDateTime.of(
                 2020, 6, 14, 16, 0, 0
         );
@@ -86,7 +86,7 @@ class PriceQueryServiceImplTest {
             throws InternalServerErrorException {
         Long brandId = 1L;
         Long productId = 35455L;
-        String applicationDate = "2020-06-14T16:00:00Z";
+        String applicationDate = "2020-06-14T16:00:00";
         LocalDateTime applicationDateAsDate = LocalDateTime.of(
                 2020, 6, 14, 16, 0, 0
         );

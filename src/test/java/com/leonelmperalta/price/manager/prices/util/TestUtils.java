@@ -82,8 +82,8 @@ public class TestUtils {
 
     public static PriceQueryResponseDTO getPriceQueryResponse() {
         return PriceQueryResponseDTO.builder()
-                .applicationEndDate("2020-12-31T23:59:59Z")
-                .applicationStartDate("2020-6-15T16:00:00Z")
+                .applicationEndDate("2020-12-31T23:59:59")
+                .applicationStartDate("2020-6-15T16:00:00")
                 .brandId(1L)
                 .currency("EUR")
                 .feeId(4L)
