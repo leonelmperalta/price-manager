@@ -8,36 +8,20 @@ import java.math.BigDecimal;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PriceQueryResponseDTO {
 
-    private Long productId;
-    private Long brandId;
-    private Long feeId;
-    private String applicationStartDate;
     private String applicationEndDate;
-    private BigDecimal finalAmount;
+    private String applicationStartDate;
+    private Long brandId;
     private String currency;
+    private Long feeId;
+    private BigDecimal finalAmount;
+    private Long productId;
 
-    public Long getProductId() {
-        return productId;
+    public String getApplicationEndDate() {
+        return applicationEndDate;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Long getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Long brandId) {
-        this.brandId = brandId;
-    }
-
-    public Long getFeeId() {
-        return feeId;
-    }
-
-    public void setFeeId(Long feeId) {
-        this.feeId = feeId;
+    public void setApplicationEndDate(String applicationEndDate) {
+        this.applicationEndDate = applicationEndDate;
     }
 
     public String getApplicationStartDate() {
@@ -48,12 +32,28 @@ public class PriceQueryResponseDTO {
         this.applicationStartDate = applicationStartDate;
     }
 
-    public String getApplicationEndDate() {
-        return applicationEndDate;
+    public Long getBrandId() {
+        return brandId;
     }
 
-    public void setApplicationEndDate(String applicationEndDate) {
-        this.applicationEndDate = applicationEndDate;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Long getFeeId() {
+        return feeId;
+    }
+
+    public void setFeeId(Long feeId) {
+        this.feeId = feeId;
     }
 
     public BigDecimal getFinalAmount() {
@@ -64,11 +64,11 @@ public class PriceQueryResponseDTO {
         this.finalAmount = finalAmount;
     }
 
-    public String getCurrency() {
-        return currency;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }
