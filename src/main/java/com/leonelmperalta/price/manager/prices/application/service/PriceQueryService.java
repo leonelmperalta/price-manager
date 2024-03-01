@@ -1,7 +1,9 @@
 package com.leonelmperalta.price.manager.prices.application.service;
 
-import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.PriceQueryResponseDTO;
+import com.leonelmperalta.price.manager.prices.application.exception.InternalServerErrorException;
+import com.leonelmperalta.price.manager.prices.application.exception.NotDataFoundException;
+import com.leonelmperalta.price.manager.prices.domain.model.PriceQuery;
 
 public interface PriceQueryService {
-    PriceQueryResponseDTO priceQuery(Long brandId, Long productId, String applicationDate);
+    PriceQuery priceQuery(Long brandId, Long productId, String applicationDate) throws InternalServerErrorException, NotDataFoundException;
 }
