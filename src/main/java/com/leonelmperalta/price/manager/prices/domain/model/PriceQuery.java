@@ -5,14 +5,14 @@ import java.time.LocalDateTime;
 
 public class PriceQuery {
 
+    private LocalDateTime applicationEndDate;
+    private LocalDateTime applicationStartDate;
     private Long brandId;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private Long feeId;
-    private Long productId;
-    private Integer priority;
-    private BigDecimal finalPrice;
     private String currency;
+    private Long feeId;
+    private BigDecimal finalPrice;
+    private Integer priority;
+    private Long productId;
 
     public Integer getPriority() {
         return priority;
