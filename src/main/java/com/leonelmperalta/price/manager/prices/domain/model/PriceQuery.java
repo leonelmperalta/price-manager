@@ -16,8 +16,36 @@ public class PriceQuery {
     private Integer priority;
     private Long productId;
 
+    public LocalDateTime getApplicationEndDate() {
+        return applicationEndDate;
+    }
+
+    public LocalDateTime getApplicationStartDate() {
+        return applicationStartDate;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public Long getFeeId() {
+        return feeId;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
     public Integer getPriority() {
         return priority;
+    }
+
+    public Long getProductId() {
+        return productId;
     }
 
     public static Builder builder() {
