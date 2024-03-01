@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,6 +55,30 @@ class PriceQueryServiceImplTest {
 
         assertNotNull(result);
         assertEquals(priceQueries.get(0), result);
+    }
+
+    @Test
+    public void givenValidRequest_whenPriceQuery_thenReturnHighestPriorityPrice()
+            throws InternalServerErrorException, NotDataFoundException {
+        Long brandId = 1L;
+        Long productId = 35455L;
+        String applicationDate = "2020-06-14T16:00:00Z";
+        LocalDateTime applicationDateAsDate = LocalDateTime.of(
+                2020, 6, 14, 16, 0, 0
+        );
+        List<PriceQuery> priceQueries = TestUtils.multiplePriceQuery();
+
+        Mockito.when(this.priceQueryServiceMapper.toLocalDateTime(eq(applicationDate))).thenReturn(applicationDateAsDate);
+
+        Mockito.when(this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
+                eq(brandId), eq(productId), eq(applicationDateAsDate)
+        )).thenReturn(priceQueries);
+
+        PriceQuery result = this.priceQueryService.priceQuery(brandId, productId, applicationDate);
+
+        assertNotNull(result);
+        assertEquals(2, result.getFeeId());
+        assertEquals(BigDecimal.valueOf(25.45), result.getFinalPrice());
     }
 
 }
