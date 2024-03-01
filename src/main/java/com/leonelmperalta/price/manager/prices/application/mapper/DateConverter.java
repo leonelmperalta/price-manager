@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 @Component
-public class PriceQueryServiceMapper {
+public class DateConverter {
 
     public LocalDateTime toLocalDateTime(String date) throws InternalServerErrorException {
         try {
