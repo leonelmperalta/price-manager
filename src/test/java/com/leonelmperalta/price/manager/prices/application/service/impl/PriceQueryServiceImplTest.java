@@ -8,7 +8,6 @@ import com.leonelmperalta.price.manager.prices.domain.repository.PriceQueryRepos
 import com.leonelmperalta.price.manager.prices.util.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
