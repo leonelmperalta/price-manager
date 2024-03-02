@@ -2,9 +2,11 @@ package com.leonelmperalta.price.manager.prices.infrastructure.in.controller;
 
 import com.leonelmperalta.price.manager.prices.application.service.PriceQueryService;
 import com.leonelmperalta.price.manager.prices.domain.model.PriceQuery;
+import com.leonelmperalta.price.manager.prices.infrastructure.in.controller.advice.CustomResponseHandler;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.mapper.PriceQueryMapper;
 import com.leonelmperalta.price.manager.prices.util.TestUtils;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
@@ -15,7 +17,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @EnableWebMvc
 class PriceControllerIntegrationTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
@@ -40,6 +44,13 @@ class PriceControllerIntegrationTest {
     @Autowired
     @InjectMocks
     private PriceController priceController;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(priceController)
+                .setControllerAdvice(new CustomResponseHandler())
+                .build();
+    }
 
     @Test
     public void givenValidRequest_whenQuery_thenReturn200() throws Exception {
@@ -60,9 +71,9 @@ class PriceControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.method", CoreMatchers.is("GET")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.operation", CoreMatchers.is("/price-manager/v1/price")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.fee_id", CoreMatchers.is("4")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.final_price", CoreMatchers.is("38.95")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errors", CoreMatchers.is("[]")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].fee_id", CoreMatchers.is(4)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].final_price", CoreMatchers.is(38.95)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors", CoreMatchers.is(new ArrayList<>())));
     }
 
 }
