@@ -48,7 +48,7 @@ class PriceQueryServiceImplTest {
         Mockito.when(this.dateConverter.toLocalDateTime(eq(applicationDate))).thenReturn(applicationDateAsDate);
 
         Mockito.when(this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
-                eq(brandId), eq(productId), eq(applicationDateAsDate)
+                eq(productId), eq(brandId), eq(applicationDateAsDate)
         )).thenReturn(priceQueries);
 
         PriceQuery result = this.priceQueryService.priceQuery(brandId, productId, applicationDate);
@@ -71,7 +71,7 @@ class PriceQueryServiceImplTest {
         Mockito.when(this.dateConverter.toLocalDateTime(eq(applicationDate))).thenReturn(applicationDateAsDate);
 
         Mockito.when(this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
-                eq(brandId), eq(productId), eq(applicationDateAsDate)
+                eq(productId), eq(brandId), eq(applicationDateAsDate)
         )).thenReturn(priceQueries);
 
         PriceQuery result = this.priceQueryService.priceQuery(brandId, productId, applicationDate);
@@ -95,7 +95,7 @@ class PriceQueryServiceImplTest {
         Mockito.when(this.dateConverter.toLocalDateTime(eq(applicationDate))).thenReturn(applicationDateAsDate);
 
         Mockito.when(this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
-                eq(brandId), eq(productId), eq(applicationDateAsDate)
+                eq(productId), eq(brandId), eq(applicationDateAsDate)
         )).thenReturn(priceQueries);
 
         assertThrows(NotDataFoundException.class, () -> this.priceQueryService.priceQuery(brandId, productId, applicationDate));

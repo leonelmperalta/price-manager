@@ -30,7 +30,7 @@ public class PriceQueryServiceImpl implements PriceQueryService {
     public PriceQuery priceQuery(Long brandId, Long productId, String applicationDate)
             throws InternalServerErrorException, NotDataFoundException {
         List<PriceQuery> prices = this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
-                brandId, productId, this.dateConverter.toLocalDateTime(applicationDate)
+                productId, brandId, this.dateConverter.toLocalDateTime(applicationDate)
         );
         if (prices.isEmpty()) throw new NotDataFoundException();
         if (prices.size() > 1 ) return this.getHighestPriorityPrice(prices);
