@@ -75,4 +75,20 @@ class PriceControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errors", CoreMatchers.is(new ArrayList<>())));
     }
 
+    @Test
+    public void givenInvalidBrand_whenQuery_thenReturn400() throws Exception {
+        mockMvc.perform(
+                        get("/price-manager/v1/price")
+                                .queryParam("brand_id", "ABC")
+                                .queryParam("product_id", "35455")
+                                .queryParam("application_date", "2020-06-14T16:00:00")
+                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.method", CoreMatchers.is("GET")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.operation", CoreMatchers.is("/price-manager/v1/price")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data", CoreMatchers.is(new ArrayList<>())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", CoreMatchers.is("ERROR_400")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].description", CoreMatchers.is("<brand> parameter should be a number.")));
+    }
+
 }
