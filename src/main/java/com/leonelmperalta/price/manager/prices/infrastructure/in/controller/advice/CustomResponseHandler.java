@@ -1,20 +1,27 @@
 package com.leonelmperalta.price.manager.prices.infrastructure.in.controller.advice;
 
+import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.advice.ErrorData;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.advice.MetaData;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.advice.ResponseBody;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @ControllerAdvice(basePackages = "com.leonelmperalta.price.manager")
 public class CustomResponseHandler implements ResponseBodyAdvice<Object> {
@@ -36,7 +43,7 @@ public class CustomResponseHandler implements ResponseBodyAdvice<Object> {
             return customResponse;
         } else if (body instanceof ResponseBody responseBody) {
             ResponseBody customResponse = this.createResponseBody(request);
-            customResponse.setData(responseBody.getData());
+            customResponse.setData(responseBody.getData() != null ? responseBody.getData() : new ArrayList<>());
             customResponse.setErrors(responseBody.getErrors());
             return customResponse;
         }
@@ -52,5 +59,22 @@ public class CustomResponseHandler implements ResponseBodyAdvice<Object> {
                 .metaData(metaData)
                 .errors(new ArrayList<>())
                 .build();
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ResponseBody> handleValidationException(ConstraintViolationException ex, HttpServletRequest request) {
+        List<ErrorData> errors = ex.getConstraintViolations().stream().map((err) ->
+                ErrorData.builder().code("ERROR_400").description(err.getMessage()).build()
+        ).toList();
+        return ResponseEntity.badRequest().body(ResponseBody.builder().errors(errors).build());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ResponseBody> handleValidationException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+        List<ErrorData> errors = Collections.singletonList(ErrorData.builder()
+                .code("ERROR_400")
+                .description("<".concat(ex.getName().concat("> has an invalid type."))).build());
+
+        return ResponseEntity.badRequest().body(ResponseBody.builder().errors(errors).build());
     }
 }

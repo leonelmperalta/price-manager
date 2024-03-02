@@ -88,7 +88,7 @@ class PriceControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.operation", CoreMatchers.is("/price-manager/v1/price")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data", CoreMatchers.is(new ArrayList<>())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", CoreMatchers.is("ERROR_400")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].description", CoreMatchers.is("<brand> parameter should be a number.")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].description", CoreMatchers.is("<brand_id> has an invalid type.")));
     }
 
 }
