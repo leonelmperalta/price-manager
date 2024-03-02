@@ -12,6 +12,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,10 +46,11 @@ class PriceControllerTest {
         Mockito.when(this.priceQueryMapper.toPriceQueryResponse(priceQuery))
                 .thenReturn(TestUtils.getPriceQueryResponse());
 
-        PriceQueryResponseDTO response = this.priceController.priceQuery(brandId, productId, applicationDate);
+        ResponseEntity<PriceQueryResponseDTO> response = this.priceController.priceQuery(brandId, productId, applicationDate);
 
-        assertEquals(1, response.getBrandId());
-        assertEquals(4L, response.getFeeId());
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
+        assertEquals(1L, Objects.requireNonNull(response.getBody()).getBrandId());
+        assertEquals(4L, response.getBody().getFeeId());
     }
 
 }
