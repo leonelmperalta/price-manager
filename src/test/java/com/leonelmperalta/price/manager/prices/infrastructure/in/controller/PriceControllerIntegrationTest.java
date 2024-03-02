@@ -1,5 +1,6 @@
 package com.leonelmperalta.price.manager.prices.infrastructure.in.controller;
 
+import com.leonelmperalta.price.manager.prices.application.exception.NotDataFoundException;
 import com.leonelmperalta.price.manager.prices.application.service.PriceQueryService;
 import com.leonelmperalta.price.manager.prices.domain.model.PriceQuery;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.controller.advice.CustomResponseHandler;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -89,6 +91,24 @@ class PriceControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data", CoreMatchers.is(new ArrayList<>())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", CoreMatchers.is("ERROR_400")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].description", CoreMatchers.is("<brand_id> has an invalid type.")));
+    }
+
+    @Test
+    public void givenInvalidRequest_whenQuery_thenReturn404() throws Exception {
+        Mockito.when(this.priceQueryService.priceQuery(any(), any(), any())).thenThrow(NotDataFoundException.class);
+
+        mockMvc.perform(
+                        get("/price-manager/v1/price")
+                                .queryParam("brand_id", "1250")
+                                .queryParam("product_id", "35455")
+                                .queryParam("application_date", "2020-06-14T16:00:00")
+                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.method", CoreMatchers.is("GET")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.meta_data.operation", CoreMatchers.is("/price-manager/v1/price")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data", CoreMatchers.is(new ArrayList<>())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", CoreMatchers.is("ERROR_404")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].description", CoreMatchers.is("Not data found for given parameters")));
     }
 
 }

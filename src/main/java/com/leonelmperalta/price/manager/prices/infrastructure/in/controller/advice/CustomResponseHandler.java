@@ -1,5 +1,6 @@
 package com.leonelmperalta.price.manager.prices.infrastructure.in.controller.advice;
 
+import com.leonelmperalta.price.manager.prices.application.exception.CustomStatusException;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.advice.ErrorData;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.advice.MetaData;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.advice.ResponseBody;
@@ -70,11 +71,20 @@ public class CustomResponseHandler implements ResponseBodyAdvice<Object> {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ResponseBody> handleValidationException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+    public ResponseEntity<ResponseBody> handleTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
         List<ErrorData> errors = Collections.singletonList(ErrorData.builder()
                 .code("ERROR_400")
                 .description("<".concat(ex.getName().concat("> has an invalid type."))).build());
 
         return ResponseEntity.badRequest().body(ResponseBody.builder().errors(errors).build());
+    }
+
+    @ExceptionHandler(CustomStatusException.class)
+    public ResponseEntity<ResponseBody> handleCustomStatusException(CustomStatusException ex, HttpServletRequest request) {
+        List<ErrorData> errors = Collections.singletonList(ErrorData.builder()
+                .code(ex.getCode())
+                .description(ex.getDescription()).build());
+
+        return ResponseEntity.status(ex.getStatus()).body(ResponseBody.builder().errors(errors).build());
     }
 }
