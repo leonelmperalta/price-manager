@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PriceQueryResponseDTO {
 
-    private PriceQueryResponseDTO() {}
-
     private String applicationEndDate;
     private String applicationStartDate;
     private Long brandId;

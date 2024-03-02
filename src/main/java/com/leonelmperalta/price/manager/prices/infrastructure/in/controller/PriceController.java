@@ -10,6 +10,7 @@ import com.leonelmperalta.price.manager.prices.infrastructure.in.mapper.PriceQue
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,7 +27,10 @@ public class PriceController {
     }
 
     @GetMapping
-    public ResponseEntity<PriceQueryResponseDTO> priceQuery(Long brandId, Long productId, String applicationDate)
+    public ResponseEntity<PriceQueryResponseDTO> priceQuery(
+            @RequestParam(name = ControllerConstants.BRAND_ID_QUERY_PARAM) Long brandId,
+            @RequestParam(name = ControllerConstants.PRODUCT_ID_QUERY_PARAM) Long productId,
+            @RequestParam(name = ControllerConstants.APPLICATION_DATE_QUERY_PARAM) String applicationDate)
             throws InternalServerErrorException, NotDataFoundException {
         PriceQuery priceQuery = this.priceQueryService.priceQuery(brandId, productId, applicationDate);
         return ResponseEntity.ok(this.priceQueryMapper.toPriceQueryResponse(priceQuery));
