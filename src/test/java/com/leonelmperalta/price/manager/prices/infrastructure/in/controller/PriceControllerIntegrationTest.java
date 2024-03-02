@@ -26,7 +26,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {PriceController.class})
 @AutoConfigureMockMvc
