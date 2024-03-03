@@ -29,7 +29,7 @@ class DateConverterTest {
     }
 
     @Test
-    public void givenInvalidDate_whenToLocalDateTime_thenThrowInternalServerError() throws InternalServerErrorException {
+    public void givenInvalidDate_whenToLocalDateTime_thenThrowInternalServerError() {
         String date = "2020-06-14T16:00:00Zasdfadsf";
         assertThrows(InternalServerErrorException.class, () -> this.dateConverter.toLocalDateTime(date));
     }
