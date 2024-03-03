@@ -104,7 +104,7 @@ public class PriceQueryIntegrationTest {
      * Test case 3: This case has only one matching application dates in db prices. So the one returned will be the result.
      * <p>
      *  Request:
-     *  application_date: 2020-06-14 10:00:00,
+     *  application_date: 2020-06-14 21:00:00,
      *  brand_id = 1 (ZARA),
      *  product_id = 35455
      * <p>
@@ -127,6 +127,38 @@ public class PriceQueryIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].fee_id", CoreMatchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].final_price", CoreMatchers.is(35.5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].brand_id", CoreMatchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].product_id", CoreMatchers.is(35455)));
+    }
+
+    /**
+     * Test case 4: This case has two matching application dates in db prices. So the one whit highest priority
+     * will be the result.
+     * <p>
+     *  Request:
+     *  application_date: 2020-06-15 10:00:00,
+     *  brand_id = 1 (ZARA),
+     *  product_id = 35455
+     * <p>
+     * Should return:
+     *  brand_id = 1 (ZARA),
+     *  product_id = 35455,
+     *  fee_id = 2,
+     *  final_price = 25.45
+     *
+     */
+    @Test
+    public void whenPriceQuery_ThenReturnFee3PriceHighestPriority() throws Exception {
+
+        mockMvc.perform(
+                        get("/price-manager/v1/price")
+                                .queryParam("brand_id", "1")
+                                .queryParam("product_id", "35455")
+                                .queryParam("application_date", "2020-06-15T10:00:00")
+                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].fee_id", CoreMatchers.is(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].final_price", CoreMatchers.is(30.5)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].brand_id", CoreMatchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].product_id", CoreMatchers.is(35455)));
     }
