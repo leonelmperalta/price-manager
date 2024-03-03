@@ -3,7 +3,6 @@ package com.leonelmperalta.price.manager.prices.infrastructure.in.controller;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.controller.advice.CustomResponseHandler;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,8 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -143,8 +140,8 @@ public class PriceQueryIntegrationTest {
      * Should return:
      *  brand_id = 1 (ZARA),
      *  product_id = 35455,
-     *  fee_id = 2,
-     *  final_price = 25.45
+     *  fee_id = 3,
+     *  final_price = 35.50
      *
      */
     @Test
@@ -159,6 +156,38 @@ public class PriceQueryIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].fee_id", CoreMatchers.is(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].final_price", CoreMatchers.is(30.5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].brand_id", CoreMatchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].product_id", CoreMatchers.is(35455)));
+    }
+
+    /**
+     * Test case 4: This case has two matching application dates in db prices. So the one whit highest priority
+     * will be the result.
+     * <p>
+     *  Request:
+     *  application_date: 2020-06-16 21:00:00,
+     *  brand_id = 1 (ZARA),
+     *  product_id = 35455
+     * <p>
+     * Should return:
+     *  brand_id = 1 (ZARA),
+     *  product_id = 35455,
+     *  fee_id = 4,
+     *  final_price = 38.95
+     *
+     */
+    @Test
+    public void whenPriceQuery_ThenReturnFee4PriceHighestPriority() throws Exception {
+
+        mockMvc.perform(
+                        get("/price-manager/v1/price")
+                                .queryParam("brand_id", "1")
+                                .queryParam("product_id", "35455")
+                                .queryParam("application_date", "2020-06-16T21:00:00")
+                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].fee_id", CoreMatchers.is(4)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].final_price", CoreMatchers.is(38.95)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].brand_id", CoreMatchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].product_id", CoreMatchers.is(35455)));
     }
