@@ -1,5 +1,6 @@
 package com.leonelmperalta.price.manager.prices.application.service.impl;
 
+import com.leonelmperalta.price.manager.prices.application.exception.PriceConfigurationErrorException;
 import com.leonelmperalta.price.manager.prices.application.exception.InternalServerErrorException;
 import com.leonelmperalta.price.manager.prices.application.exception.NotDataFoundException;
 import com.leonelmperalta.price.manager.prices.application.mapper.DateConverter;
@@ -36,7 +37,7 @@ class PriceQueryServiceImplTest {
 
     @Test
     public void givenValidRequest_whenPriceQuery_thenReturnFirstMatchingPrice()
-            throws InternalServerErrorException, NotDataFoundException {
+            throws InternalServerErrorException, NotDataFoundException, PriceConfigurationErrorException {
         Long brandId = 1L;
         Long productId = 35455L;
         String applicationDate = "2020-06-15T18:00:00";
@@ -59,7 +60,7 @@ class PriceQueryServiceImplTest {
 
     @Test
     public void givenValidRequest_whenPriceQuery_thenReturnHighestPriorityPrice()
-            throws InternalServerErrorException, NotDataFoundException {
+            throws InternalServerErrorException, NotDataFoundException, PriceConfigurationErrorException {
         Long brandId = 1L;
         Long productId = 35455L;
         String applicationDate = "2020-06-14T16:00:00";
@@ -99,6 +100,26 @@ class PriceQueryServiceImplTest {
         )).thenReturn(priceQueries);
 
         assertThrows(NotDataFoundException.class, () -> this.priceQueryService.priceQuery(brandId, productId, applicationDate));
+    }
+
+    @Test
+    public void givenValidRequest_whenPriceQueryWithTwoApplicableFees_thenThrowPriceConfigurationErrorException()
+            throws InternalServerErrorException {
+        Long brandId = 1L;
+        Long productId = 35455L;
+        String applicationDate = "2020-06-14T16:00:00";
+        LocalDateTime applicationDateAsDate = LocalDateTime.of(
+                2020, 6, 14, 16, 0, 0
+        );
+        List<PriceQuery> priceQueries = TestUtils.multiplePriceQueryBothApplicable();
+
+        Mockito.when(this.dateConverter.toLocalDateTime(eq(applicationDate))).thenReturn(applicationDateAsDate);
+
+        Mockito.when(this.priceQueryRepository.findByProductIdAndBrandIdAndApplicationDatesBetween(
+                eq(productId), eq(brandId), eq(applicationDateAsDate)
+        )).thenReturn(priceQueries);
+
+        assertThrows(PriceConfigurationErrorException.class, () -> this.priceQueryService.priceQuery(brandId, productId, applicationDate));
     }
 
 }
