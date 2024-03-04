@@ -2,6 +2,7 @@ package com.leonelmperalta.price.manager.prices.infrastructure.in.controller;
 
 import com.leonelmperalta.price.manager.prices.application.exception.InternalServerErrorException;
 import com.leonelmperalta.price.manager.prices.application.exception.NotDataFoundException;
+import com.leonelmperalta.price.manager.prices.application.exception.PriceConfigurationErrorException;
 import com.leonelmperalta.price.manager.prices.application.service.PriceQueryService;
 import com.leonelmperalta.price.manager.prices.domain.model.PriceQuery;
 import com.leonelmperalta.price.manager.prices.infrastructure.in.dto.PriceQueryResponseDTO;
@@ -34,7 +35,7 @@ class PriceControllerTest {
 
     @Test
     public void givenValidRequest_whenPriceQuery_thenReturnPriceResponse()
-            throws InternalServerErrorException, NotDataFoundException {
+            throws InternalServerErrorException, NotDataFoundException, PriceConfigurationErrorException {
         Long brandId = 1L;
         Long productId = 35455L;
         String applicationDate = "2020-06-15T18:00:00";

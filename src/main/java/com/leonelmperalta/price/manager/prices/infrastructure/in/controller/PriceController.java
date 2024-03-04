@@ -1,5 +1,6 @@
 package com.leonelmperalta.price.manager.prices.infrastructure.in.controller;
 
+import com.leonelmperalta.price.manager.prices.application.exception.PriceConfigurationErrorException;
 import com.leonelmperalta.price.manager.prices.application.exception.InternalServerErrorException;
 import com.leonelmperalta.price.manager.prices.application.exception.NotDataFoundException;
 import com.leonelmperalta.price.manager.prices.application.service.PriceQueryService;
@@ -50,7 +51,7 @@ public class PriceController {
             @Pattern(regexp = ValidationConstants.ISO_8601_FORMAT_REGEXP,
                     message = ValidationConstants.APPLICATION_DATE_ISO_8601)
             String applicationDate)
-            throws InternalServerErrorException, NotDataFoundException {
+            throws InternalServerErrorException, NotDataFoundException, PriceConfigurationErrorException {
         PriceQuery priceQuery = this.priceQueryService.priceQuery(brandId, productId, applicationDate);
         return ResponseEntity.ok(this.priceQueryMapper.toPriceQueryResponse(priceQuery));
     }
